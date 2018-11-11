@@ -78,22 +78,20 @@ namespace Safe
         return ::WaitForSingleObject(handle, timeout);
     }
 
-    template<typename T>
-    inline static DWORD WaitFor(const Handle<T> & handle, const DWORD timeout = INFINITE)
+    template<typename T, typename ...A>
+    inline auto WaitFor(const Handle<T> & handle, A&& ..args)
     {
-        return WaitFor(handle.get(), timeout);
+        return WaitFor(handle.get(), std::forward<A>(args)...);
     }
 
     template<typename T> constexpr auto sizeOf()       noexcept {return sizeof(T)   ;}
     template<>           constexpr auto sizeOf<void>() noexcept {return sizeof(BYTE);}
 
-    template<typename D>
-    inline size_t Write(   const HANDLE    handle
-                         , const D * const items
-                         , const size_t    count )
+    template<typename I>
+    inline size_t Write(const HANDLE handle, const I * const items, const size_t count)
     {
         const auto data = reinterpret_cast<const BYTE * const>(items);
-        const auto size = count * sizeOf<D>();
+        const auto size = count * sizeOf<I>();
 
         size_t totally_written = 0;
         for(   DWORD written = 0
@@ -114,9 +112,9 @@ namespace Safe
         return totally_written;
     }
 
-    // template<typename D>
+    // template<typename I>
     // static inline size_t Write(   const HANDLE       handle
-    //                             , const D * const    data
+    //                             , const I * const    data
     //                             , const size_t       size
     //                             , const LPOVERLAPPED position )
     // {
@@ -134,14 +132,14 @@ namespace Safe
     //     return static_cast<size_t>(totally_written);
     // }
 
-    template<typename D>
-    inline auto Write(const HANDLE handle, const D & item)
+    template<typename I>
+    inline auto Write(const HANDLE handle, const I & item)
     {
         return Write(handle, &item, 1);
     }
 
-    template<typename D>
-    inline auto WriteData(const HANDLE handle, const D & items)
+    template<typename I>
+    inline auto WriteData(const HANDLE handle, const I & items)
     {
         return Write(handle, std::data(items), std::size(items));
     }
@@ -158,16 +156,14 @@ namespace Safe
         return WriteData(handle.get(), std::forward<A>(args)...);
     }
 
-    template<typename D>
-    inline size_t Read(const HANDLE handle, D * const items, const size_t count)
+    template<typename I>
+    inline size_t Read(const HANDLE handle, I * const items, const size_t count)
     {
         const auto data = reinterpret_cast<BYTE * const>(items);
-        const auto size = count * sizeOf<D>();
+        const auto size = count * sizeOf<I>();
 
         size_t totally_read = 0;
-        for(   DWORD read = 0
-             ; totally_read < size
-             ; totally_read += read, read = 0 )
+        for(DWORD read = 0; totally_read < size; totally_read += read, read = 0)
         {
             const auto okey = ::ReadFile(    handle
                                           ,  data + totally_read
@@ -183,14 +179,14 @@ namespace Safe
         return totally_read;
     }
 
-    template<typename D>
-    inline auto Read(const HANDLE handle, D & item)
+    template<typename I>
+    inline auto Read(const HANDLE handle, I & item)
     {
         return Read(handle, &item, 1);
     }
 
-    template<typename D>
-    inline auto ReadData(const HANDLE handle, D & items)
+    template<typename I>
+    inline auto ReadData(const HANDLE handle, I & items)
     {
         return Read(handle, std::data(items), std::size(items));
     }
