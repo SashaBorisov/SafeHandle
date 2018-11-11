@@ -12,6 +12,9 @@ set(CPPS
     ../../import/googletest/googletest/src/gtest-all.cc
     ../../import/googletest/googletest/src/gtest_main.cc
     CriticalSection_Tests.cpp
+    CoInitialize_Tests.cpp
+    Event_Tests.cpp
+    File_Tests.cpp
 )
 
 add_executable(UnitTests ${CPPS})
