@@ -15,6 +15,8 @@ set(CPPS
     CoInitialize_Tests.cpp
     Event_Tests.cpp
     File_Tests.cpp
+    Heap_Tests.cpp
+    Mutex_Tests.cpp
 )
 
 add_executable(UnitTests ${CPPS})
