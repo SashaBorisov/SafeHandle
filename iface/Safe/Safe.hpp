@@ -8,12 +8,13 @@ namespace Safe
     class Safe
     {
     public:
-        using Spec = T;
-        using Type = typename Spec::Type;
+        using Spec  = T;
+        using Type  = typename Spec::Type ;
+        using Asset = typename Spec::Asset;
 
     private:
         bool Owner = false;
-        Type Asset;
+        Type Gem;
 
     public:
         Safe(const Safe &) = delete;
@@ -22,11 +23,11 @@ namespace Safe
         template<typename ...A>
         Safe(A&& ...args)
         {
-            Spec::invalidate(Asset);
-            Owner = Spec::acquire(Asset, std::forward<A>(args)...);
+            Spec::invalidate(Gem);
+            Owner = Spec::acquire(Gem, std::forward<A>(args)...);
             if(!Owner)
             {
-                Spec::invalidate(Asset);
+                Spec::invalidate(Gem);
             }
         }
 
@@ -34,12 +35,12 @@ namespace Safe
         {
             if(!copy.Owner)
             {
-                Spec::invalidate(Asset);
+                Spec::invalidate(Gem);
             }
             else
             {
-                Asset = std::move(copy.Asset);
-                Owner = true;
+                Gem        = std::move(copy.Gem);
+                Owner      = true;
                 copy.Owner = false;
             }
         }
@@ -47,7 +48,7 @@ namespace Safe
         ~Safe()
         {
             release();
-            Spec::invalidate(Asset);
+            Spec::invalidate(Gem);
         }
 
         const Safe & operator = (Safe && copy) 
@@ -58,7 +59,7 @@ namespace Safe
                 {
                     if(copy.Owner)
                     {
-                        Asset = std::move(copy.Asset);
+                        Gem = std::move(copy.Gem);
                         Owner = true;
                         copy.Owner = false;
                     }
@@ -71,9 +72,9 @@ namespace Safe
         {
             if(Owner)
             {
-                if(Spec::release(Asset))
+                if(Spec::release(Gem))
                 {
-                    Spec::invalidate(Asset);
+                    Spec::invalidate(Gem);
                     Owner = false;
                 }
             }
@@ -83,8 +84,8 @@ namespace Safe
         constexpr    bool owner() const {return Owner;}
         constexpr operator bool() const {return Owner;}
 
-              Type & get()       {return Asset;}
-        const Type & get() const {return Asset;}
+              Asset & get()       {return Spec::get(Gem);}
+        const Asset & get() const {return Spec::get(Gem);}
 
     }; // class Safe
 

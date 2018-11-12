@@ -8,33 +8,39 @@ namespace Safe
 {
     struct CoInitialize_Spec
     {
-        using Type = HRESULT;
+        using Type  = HRESULT;
+        using Asset = Type;
 
-        static constexpr bool valid(const Type asset) noexcept
+        static constexpr bool valid(const Type gem) noexcept
         {
-            return SUCCEEDED(asset);
+            return SUCCEEDED(gem);
         }
 
-        static void invalidate(Type & asset) noexcept
+        static constexpr Asset & get(const Type & gem) noexcept
         {
-            asset = E_FAIL;
+            return const_cast<Asset &>(gem);
         }
 
-        static bool acquire(Type & asset)
+        static void invalidate(Type & gem) noexcept
         {
-            asset = ::CoInitialize(NULL);
-            return valid(asset);
+            gem = E_FAIL;
         }
 
-        static bool acquire(Type & asset, const DWORD coinit)
+        static bool acquire(Type & gem)
         {
-            asset = ::CoInitializeEx(NULL, coinit);
-            return valid(asset);
+            gem = ::CoInitialize(NULL);
+            return valid(gem);
         }
 
-        static bool release(const Type asset)
+        static bool acquire(Type & gem, const DWORD coinit)
         {
-            if(valid(asset))
+            gem = ::CoInitializeEx(NULL, coinit);
+            return valid(gem);
+        }
+
+        static bool release(const Type gem)
+        {
+            if(valid(gem))
             {
                 ::CoUninitialize();
                 return true;

@@ -12,39 +12,45 @@ namespace Safe
     template<typename T>
     struct Handle_Spec
     {
-        using Type = HANDLE;
+        using Type  = HANDLE;
+        using Asset = Type;
 
-        static constexpr bool valid(const Type asset) noexcept
+        static constexpr bool valid(const Type gem) noexcept
         {
-            return NULL != asset && INVALID_HANDLE_VALUE != asset;
+            return NULL != gem && INVALID_HANDLE_VALUE != gem;
         }
 
-        static void invalidate(Type & asset) noexcept
+        static void invalidate(Type & gem) noexcept
         {
-            asset = NULL;
+            gem = NULL;
         }
 
-        static bool acquire(Type & asset, HANDLE && copy)
+        static constexpr Asset & get(const Type & gem) noexcept
+        {
+            return const_cast<Asset &>(gem);
+        }
+
+        static bool acquire(Type & gem, HANDLE && copy)
         {
             if(valid(copy))
             {
-                asset = copy;
+                gem = copy;
                 return true;
             }
             return false;
         }
 
         template<typename ...A>
-        static bool acquire(Type & asset, A&& ...args)
+        static bool acquire(Type & gem, A&& ...args)
         {
-            return T::acquire(asset, std::forward<A>(args)...);
+            return T::acquire(gem, std::forward<A>(args)...);
         }
 
-        static bool release(const Type asset)
+        static bool release(const Type gem)
         {
-            if(valid(asset))
+            if(valid(gem))
             {
-                return FALSE != ::CloseHandle(asset);
+                return FALSE != ::CloseHandle(gem);
             }
             return false;
         }
@@ -78,10 +84,10 @@ namespace Safe
         return ::WaitForSingleObject(handle, timeout);
     }
 
-    template<typename T, typename ...A>
-    inline auto WaitFor(const Handle<T> & handle, A&& ..args)
+    template<typename T> //, typename ...A>
+    inline auto WaitFor(const Handle<T> & handle, const DWORD timeout = INFINITE) // A&& ..args)
     {
-        return WaitFor(handle.get(), std::forward<A>(args)...);
+        return ::WaitForSingleObject(handle.get(), timeout); //std::forward<A>(args)...);
     }
 
     template<typename T> constexpr auto sizeOf()       noexcept {return sizeof(T)   ;}

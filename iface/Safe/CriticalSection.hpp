@@ -9,7 +9,8 @@ namespace Safe
 {
     struct CriticalSection_Spec
     {
-        using Type = CRITICAL_SECTION;
+        using Type  = CRITICAL_SECTION;
+        using Asset = Type;
 
         // static constexpr bool valid(Type&) noexcept
         // {
@@ -18,20 +19,25 @@ namespace Safe
 
         static constexpr void invalidate(Type &) noexcept {}
 
-        static bool acquire(Type & asset)
+        static constexpr Asset & get(const Type & gem) noexcept
         {
-            ::InitializeCriticalSection(&asset);
+            return const_cast<Asset &>(gem);
+        }
+
+        static bool acquire(Type & gem)
+        {
+            ::InitializeCriticalSection(&gem);
             return true;
         }
 
-        static bool acquire(Type & asset, const DWORD spin_count)
+        static bool acquire(Type & gem, const DWORD spin_count)
         {
-           return TRUE == ::InitializeCriticalSectionAndSpinCount(&asset, spin_count);
+           return TRUE == ::InitializeCriticalSectionAndSpinCount(&gem, spin_count);
         }
 
-        static bool release(Type & asset)
+        static bool release(Type & gem)
         {
-            ::DeleteCriticalSection(&asset);
+            ::DeleteCriticalSection(&gem);
             return true;
         }
 
@@ -40,41 +46,47 @@ namespace Safe
 
     struct CriticalSectionLocker_Spec
     {
-        using Type = CRITICAL_SECTION *;
+        using Type  = CRITICAL_SECTION *;
+        using Asset = Type;
 
-        // static constexpr bool valid(const Type asset) noexcept
+        // static constexpr bool valid(const Type gem) noexcept
         // {
-        //     return NULL != asset;
+        //     return NULL != gem;
         // }
-
-        static void invalidate(Type & asset) noexcept
+        
+        static constexpr Asset & get(const Type & gem) noexcept
         {
-            asset = NULL;
+            return const_cast<Asset &>(gem);
         }
 
-        static bool acquire(Type & asset, const Type guard)
+        static void invalidate(Type & gem) noexcept
+        {
+            gem = NULL;
+        }
+
+        static bool acquire(Type & gem, const Type guard)
         {
             if(NULL != guard)
             {    
-                asset = guard;                
-                ::EnterCriticalSection(asset);
+                gem = guard;                
+                ::EnterCriticalSection(gem);
                 return true;
             }
             return false;    
         }
 
-        static bool acquire(Type & asset, const CriticalSection & guard)
+        static bool acquire(Type & gem, const CriticalSection & guard)
         {
             if(guard)
             {
-                return acquire(asset, const_cast<Type>(&guard.get()));
+                return acquire(gem, const_cast<Type>(&guard.get()));
             }
             return false;
         }
 
-        static bool release(const Type asset)
+        static bool release(const Type gem)
         {
-            ::LeaveCriticalSection(asset);
+            ::LeaveCriticalSection(gem);
             return true;
         }
 
@@ -83,19 +95,25 @@ namespace Safe
 
     struct CriticalSectionTryLocker_Spec
     {
-        using Type = CRITICAL_SECTION *;
+        using Type  = CRITICAL_SECTION *;
+        using Asset = Type;
 
-        static constexpr bool valid(const Type asset) noexcept
+        static constexpr bool valid(const Type gem) noexcept
         {
-            return NULL != asset;
+            return NULL != gem;
         }
 
-        static void invalidate(Type & asset) noexcept
+        static constexpr Asset & get(const Type & gem) noexcept
         {
-            asset = NULL;
+            return const_cast<Asset &>(gem);
+        }
+        
+        static void invalidate(Type & gem) noexcept
+        {
+            gem = NULL;
         }
 
-        static bool acquire(Type & asset, const Type guard, const DWORD spin_count)
+        static bool acquire(Type & gem, const Type guard, const DWORD spin_count)
         {
             if(valid(guard))
             {    
@@ -104,7 +122,7 @@ namespace Safe
                 {
                     if(TRUE == ::TryEnterCriticalSection(guard))
                     {
-                        asset = guard;                
+                        gem = guard;                
                         return true;
                     }
                 } 
@@ -113,36 +131,36 @@ namespace Safe
             return false;    
         }
 
-        static bool acquire(Type & asset, const Type guard)
+        static bool acquire(Type & gem, const Type guard)
         {
             if(valid(guard))
             {
-                return acquire(asset, guard, static_cast<DWORD>(guard->SpinCount));
+                return acquire(gem, guard, static_cast<DWORD>(guard->SpinCount));
             }
             return false;
         }
 
-        static bool acquire(Type & asset, const CriticalSection & guard, const DWORD spin_count)
+        static bool acquire(Type & gem, const CriticalSection & guard, const DWORD spin_count)
         {
             if(guard)
             {
-                return acquire(asset, const_cast<Type>(&guard.get()), spin_count);
+                return acquire(gem, const_cast<Type>(&guard.get()), spin_count);
             }
             return false;
         }
 
-        static bool acquire(Type & asset, const CriticalSection & guard)
+        static bool acquire(Type & gem, const CriticalSection & guard)
         {
             if(guard)
             {
-                return acquire(asset, const_cast<Type>(&guard.get()));
+                return acquire(gem, const_cast<Type>(&guard.get()));
             }
             return false;
         }
 
-        static bool release(const Type asset)
+        static bool release(const Type gem)
         {
-            ::LeaveCriticalSection(asset);
+            ::LeaveCriticalSection(gem);
             return true;
         }
 

@@ -1,6 +1,7 @@
 #ifndef __SAFE_MUTEX_HPP__
 #define __SAFE_MUTEX_HPP__
 
+#include <synchapi.h>
 #include <Safe/Handle.hpp>
 
 
@@ -8,30 +9,30 @@ namespace Safe
 {
     struct MutexHandle_Spec
     {
-        static bool acquire(HANDLE & asset, const LPSECURITY_ATTRIBUTES attrs
-                                          , const BOOL    initial_owner
-                                          , const TCHAR * name   )
+        static bool acquire(HANDLE & gem, const LPSECURITY_ATTRIBUTES attrs
+                                        , const bool    initial_owner
+                                        , const TCHAR * name   )
         {
-            asset = ::CreateMutex
+            gem = ::CreateMutex
             (
                   attrs
-                , initial_owner
+                , initial_owner ? TRUE : FALSE
                 , name
             );
-            return NULL != asset;
+            return NULL != gem;
         }
 
-        static bool acquire(HANDLE & asset, const BOOL    initial_owner = FALSE
-                                          , const TCHAR * name          = NULL )
+        static bool acquire(HANDLE & gem, const bool    initial_owner = false
+                                        , const TCHAR * name          = NULL )
         {
             return acquire
             (
-                  asset
+                  gem
                 , NULL
                 , initial_owner
                 , name
             );
-            return NULL != asset;
+            return NULL != gem;
         }
 
     }; // struct MutexHandle_Spec
