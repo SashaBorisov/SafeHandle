@@ -35,17 +35,13 @@ namespace Safe
                                           , const DWORD   disposition
                                           , const DWORD   flags         )
         {
-            return acquire
-            (
-                  asset
-                , path
-                , access
-                , share_mode
-                , sec_attrs
-                , disposition
-                , flags
-                , NULL
-            );
+            return acquire(asset, path
+                                , access
+                                , share_mode
+                                , sec_attrs
+                                , disposition
+                                , flags
+                                , NULL    );
         }
 
         static bool acquire(HANDLE & asset, const TCHAR * path
@@ -54,17 +50,13 @@ namespace Safe
                                           , const DWORD   disposition
                                           , const DWORD   flags         )
         {
-            return acquire
-            (
-                  asset
-                , path
-                , access
-                , share_mode
-                , NULL
-                , disposition
-                , flags
-                , NULL
-            );
+            return acquire(asset, path
+                                , access
+                                , share_mode
+                                , NULL
+                                , disposition
+                                , flags
+                                , NULL     );
         }
 
         static bool acquire(HANDLE & asset, const TCHAR * path
@@ -72,17 +64,13 @@ namespace Safe
                                           , const DWORD   share_mode  = FILE_SHARE_READ
                                           , const DWORD   disposition = OPEN_EXISTING )
         {
-            return acquire
-            (
-                  asset
-                , path
-                , access
-                , share_mode
-                , NULL
-                , disposition
-                , FILE_ATTRIBUTE_NORMAL
-                , NULL
-            );
+            return acquire(asset, path
+                                , access
+                                , share_mode
+                                , NULL
+                                , disposition
+                                , FILE_ATTRIBUTE_NORMAL
+                                , NULL    );
         }
 
     }; // struct FileHandle_Spec    

@@ -28,15 +28,10 @@ namespace Safe
                                         , const bool    initial = false
                                         , const TCHAR * name    = NULL  )
         {
-            return acquire
-            (
-                  gem
-                , NULL
-                , manual  
-                , initial 
-                , name
-            );
-            return NULL != gem;
+            return acquire(gem, NULL
+                              , manual  
+                              , initial 
+                              , name    );
         }
     }; // EventHandle_Spec
     using Event = Handle<EventHandle_Spec>;

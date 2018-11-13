@@ -125,6 +125,7 @@ namespace Safe
                         gem = guard;                
                         return true;
                     }
+                    // YeldProcessor();
                 } 
                 while((++spin) < spin_count);
             }

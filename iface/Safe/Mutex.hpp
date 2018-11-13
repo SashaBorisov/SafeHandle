@@ -25,14 +25,9 @@ namespace Safe
         static bool acquire(HANDLE & gem, const bool    initial_owner = false
                                         , const TCHAR * name          = NULL )
         {
-            return acquire
-            (
-                  gem
-                , NULL
-                , initial_owner
-                , name
-            );
-            return NULL != gem;
+            return acquire(gem, NULL
+                              , initial_owner
+                              , name         );
         }
 
     }; // struct MutexHandle_Spec
