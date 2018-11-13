@@ -2,11 +2,16 @@
 #define __SAFE_FILE_MAPPING_HPP__
 
 #include <memoryapi.h>
+
+#include <Safe/Safe.hpp>
+#include <Safe/Handle.hpp>
 #include <Safe/File.hpp>
 
 
 namespace Safe
 {
+    using QWORD = unsigned long long;
+    
     constexpr DWORD HiDword(const QWORD value) noexcept
     {
         return static_cast<DWORD>((value >> 32) & 0xFFFFFFFF);
@@ -87,7 +92,7 @@ namespace Safe
                 , HiDword(offset)
                 , LoDword(offset)
                 , size
-            )
+            );
             return valid(gem);
         }
 

@@ -4,5 +4,6 @@
 
 TEST(FileMapping, Create)
 {
-    auto mapping = Safe::FileMapping(NULL);
+    auto file    = Safe::File(__T("FileMapping.test"));
+    auto mapping = Safe::FileMapping(file);
 }
