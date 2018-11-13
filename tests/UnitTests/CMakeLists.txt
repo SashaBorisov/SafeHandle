@@ -15,6 +15,7 @@ set(CPPS
     CoInitialize_Tests.cpp
     Event_Tests.cpp
     File_Tests.cpp
+    FileMapping_Tests.cpp
     Heap_Tests.cpp
     Mutex_Tests.cpp
 )

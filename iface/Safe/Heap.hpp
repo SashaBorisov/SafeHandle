@@ -89,11 +89,17 @@ namespace Safe
 
     struct ProcHeapChunk_Spec
     {
-        using Type = void *;
+        using Type  = void *;
+        using Asset = Type;
 
         static constexpr bool valid(const Type gem) noexcept
         {
             return NULL != gem;
+        }
+
+        static constexpr Asset & get(const Type & gem) noexcept
+        {
+            return const_cast<Asset &>(gem);
         }
 
         static void invalidate(Type & gem) noexcept
@@ -111,8 +117,9 @@ namespace Safe
         {
             return TRUE == ::HeapFree(::GetProcessHeap(), 0, gem);
         }
-    };
 
+    }; // struct ProcHeapChunk_Spec
+    using ProcHeapChunk = Safe<ProcHeapChunk_Spec>;
 
 } // namespace Safe
 
