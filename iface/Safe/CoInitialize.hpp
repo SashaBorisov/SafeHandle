@@ -1,5 +1,5 @@
 #ifndef __SAFE_CO_INITIALIZE_HPP__
-#define  __SAFE_CO_INITIALIZE_HPP__
+#define __SAFE_CO_INITIALIZE_HPP__
 
 #include <combaseapi.h>
 #include <Safe/Safe.hpp>
