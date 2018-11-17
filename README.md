@@ -1,6 +1,6 @@
 # SafeHandle
 
-It is Modern C++ header only library for Win32. It designed to be safe and lightweight.
+It is Modern C++ header-only library for Win32. It designed to be safe and lightweight.
 
 ## License
 
