@@ -18,6 +18,7 @@ set(CPPS
     FileMapping_Tests.cpp
     Heap_Tests.cpp
     Mutex_Tests.cpp
+    WaitableTimer_Tests.cpp
 )
 
 add_executable(UnitTests ${CPPS})

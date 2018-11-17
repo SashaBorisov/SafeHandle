@@ -13,7 +13,7 @@ namespace Safe
     struct Handle_Spec
     {
         using Type  = HANDLE;
-        using Asset = Type;
+        using Asset = Type  ;
 
         static constexpr bool valid(const Type gem) noexcept
         {
@@ -30,7 +30,7 @@ namespace Safe
             return const_cast<Asset &>(gem);
         }
 
-        static bool acquire(Type & gem, HANDLE && copy)
+        static bool acquire(Type & gem, const HANDLE copy) noexcept
         {
             if(valid(copy))
             {
@@ -79,10 +79,10 @@ namespace Safe
         return Handle<T>(INVALID_HANDLE_VALUE);
     }
 
-    inline static DWORD WaitFor(const HANDLE handle, const DWORD timeout = INFINITE)
-    {
-        return ::WaitForSingleObject(handle, timeout);
-    }
+    // inline static DWORD WaitFor(const HANDLE handle, const DWORD timeout = INFINITE)
+    // {
+    //     return ::WaitForSingleObject(handle, timeout);
+    // }
 
     template<typename T> //, typename ...A>
     inline auto WaitFor(const Handle<T> & handle, const DWORD timeout = INFINITE) // A&& ..args)
