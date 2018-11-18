@@ -8,19 +8,23 @@ namespace Safe
 {
     struct MailslotHandle_Spec
     {
-        static bool acquire(HANDLE & gem,  _In_     LPCWSTR lpName,
-    _In_     DWORD nMaxMessageSize,
-    _In_     DWORD lReadTimeout,
-    _In_opt_ LPSECURITY_ATTRIBUTES lpSecurityAttributes)
+        static bool acquire(HANDLE & gem, const TCHAR * name
+                                        , const DWORD   max_message_size
+                                        , const DWORD   read_timeout
+                                        , const LPSECURITY_ATTRIBUTES attrs = NULL)
         {
             gem = ::CreateMailslot
             (
-
+                  name
+                , max_message_size
+                , read_timeout
+                , attrs
             );
             return INVALID_HANDLE_VALUE != gem;
         }
 
-    }; // struct MailSlotHandle_Spec
+    }; // struct MailslotHandle_Spec
+    using Mailslot = Handle<MailslotHandle_Spec>;
 
 } // namespace Safe
 
