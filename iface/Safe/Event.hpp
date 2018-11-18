@@ -36,6 +36,47 @@ namespace Safe
     }; // EventHandle_Spec
     using Event = Handle<EventHandle_Spec>;
 
+    struct EventSetter_Spec
+    {
+        using Type  = HANDLE;
+        using Asset = Type  ;
+
+        static constexpr bool valid(const Type gem) noexcept
+        {
+            return NULL != gem;
+        }
+
+        static void invalidate(Type & gem) noexcept
+        {
+            gem = NULL;
+        }
+
+        static constexpr Asset & get(const Type & gem) noexcept
+        {
+            return const_cast<Asset &>(gem);
+        }
+
+        static bool acquire(HANDLE & gem, const Event & handle)
+        {
+            if(handle)
+            {
+                gem = handle.get();
+                return valid(gem);
+            }
+            return false;
+        }
+
+        static bool release(const HANDLE gem)
+        {
+            if(valid(gem))
+            {
+                return FALSE != ::SetEvent(gem);
+            }
+            return false;
+        }
+    }; // struct EventSetter_Spec
+    using EventSetter = Safe<EventSetter_Spec>;
+
 } // namespace Safe
 
 #endif // __SAFE_EVENT_HPP__

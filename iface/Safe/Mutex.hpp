@@ -33,6 +33,17 @@ namespace Safe
     }; // struct MutexHandle_Spec
     using Mutex = Handle<MutexHandle_Spec>;
 
+    struct MutexLocker_Spec
+    {
+        using Spec = MutexHandle_Spec;
+
+        static bool release(const HANDLE gem)
+        {
+            return FALSE != ::ReleaseMutex(gem);
+        }
+    };
+    using MutexLocker = HandleLocker<MutexLocker_Spec>;
+
 } // namespace Safe
 
 #endif // __SAFE_MUTEX_HPP__
