@@ -11,38 +11,32 @@ namespace Safe
     {
         using ProcedurePtr = _beginthreadex_proc_type;
 
-        static bool acquire(HANDLE & gem, const LPSECURITY_ATTRIBUTES security
-                                        , const unsigned int          stack_size
-                                        , const ProcedurePtr          procedure
-                                        ,       void         * const  argument
-                                        , const unsigned int          init_flag
-                                        ,       unsigned int * const  thread_id  )
+        static bool acquire(HANDLE & gem, const ProcedurePtr          procedure
+                                        ,       void         * const  argument   = nullptr
+                                        , const unsigned int          init_flag  = 0
+                                        ,       unsigned int * const  thread_id  = NULL 
+                                        , const unsigned int          stack_size = 0   
+                                        , const LPSECURITY_ATTRIBUTES security   = NULL )
         {
-            gem = reinterpret_cast<HANDLE>(::_beginthreadex
-            (
-                  security
-                , stack_size
-                , procedure
-                , argument
-                , init_flag
-                , thread_id
-            ));
+            if(nullptr == procedure)
+            {
+                gem = NULL;
+            }
+            else
+            {
+                gem = reinterpret_cast<HANDLE>(::_beginthreadex
+                (
+                    security
+                    , stack_size
+                    , procedure
+                    , argument
+                    , init_flag
+                    , thread_id
+                ));
+            }
             return NULL != gem && INVALID_HANDLE_VALUE != gem;
         }
 
-        static bool acquire(HANDLE & gem, const unsigned int          stack_size
-                                        , const ProcedurePtr          procedure
-                                        ,       void         * const  argument  = NULL
-                                        , const unsigned int          init_flag = 0
-                                        ,       unsigned int * const  thread_id = NULL )
-        {
-            return acquire(gem, NULL
-                              , stack_size
-                              , procedure
-                              , argument
-                              , init_flag
-                              , thread_id );
-        }
     };
     using Thread = Handle<ThreadHandle_Spec>;
     

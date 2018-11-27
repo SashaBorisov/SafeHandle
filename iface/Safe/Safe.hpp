@@ -80,8 +80,8 @@ namespace Safe
             return !Owner;
         }
 
-        constexpr    bool owner() const {return Owner;}
-        constexpr operator bool() const {return Owner;}
+        constexpr    bool owner() const noexcept {return Owner;}
+        constexpr operator bool() const noexcept {return Owner;}
 
               Asset & get()       {return Spec::get(Gem);}
         const Asset & get() const {return Spec::get(Gem);}

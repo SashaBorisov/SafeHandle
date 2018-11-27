@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(UnitTests VERSION 0.1.0)
 
+#set(CMAKE_CXX_STANDARD 17)
+
 #include(CTest)
 #enable_testing()
 
@@ -18,6 +20,7 @@ set(CPPS
     FileMapping_Tests.cpp
     Heap_Tests.cpp
     Mutex_Tests.cpp
+    Thread_Tests.cpp
     WaitableTimer_Tests.cpp
 )
 
