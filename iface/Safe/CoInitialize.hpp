@@ -1,5 +1,4 @@
-#ifndef __SAFE_CO_INITIALIZE_HPP__
-#define __SAFE_CO_INITIALIZE_HPP__
+#pragma once
 
 #include <combaseapi.h>
 #include <Safe/Safe.hpp>
@@ -52,4 +51,3 @@ namespace Safe
     using CoInitialize = Safe<CoInitialize_Spec>;
 }
 
-#endif //  __SAFE_CO_INITIALIZE_HPP__

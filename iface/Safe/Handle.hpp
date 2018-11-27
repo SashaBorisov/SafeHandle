@@ -1,5 +1,4 @@
-#ifndef __SAFE_HANDLE_HPP__
-#define __SAFE_HANDLE_HPP__
+#pragma once
 
 #include <handleapi.h>
 #include <tchar.h>
@@ -260,4 +259,4 @@ namespace Safe
 
 } // namespace Safe
 
-#endif // __SAFE_HANDLE_HPP__
+

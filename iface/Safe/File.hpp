@@ -1,5 +1,4 @@
-#ifndef __SAFE_FILE_HPP__
-#define __SAFE_FILE_HPP__
+#pragma once
 
 #include <Safe/Handle.hpp>
 
@@ -78,4 +77,3 @@ namespace Safe
 
 } // namespace Safe
 
-#endif // __SAFE_FILE_HPP__

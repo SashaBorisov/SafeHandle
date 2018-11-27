@@ -1,5 +1,4 @@
-#ifndef __SAFE_WAITABLE_TIMER_HPP__
-#define __SAFE_WAITABLE_TIMER_HPP__
+#pragma once
 
 #include <synchapi.h>
 #include <Safe/Handle.hpp>
@@ -95,4 +94,3 @@ namespace Safe
 
 } // namespace Safe
 
-#endif // __SAFE_WAITABLE_TIMER_HPP__

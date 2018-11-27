@@ -1,5 +1,4 @@
-#ifndef __SAFE_CRITICAL_SECTION_HPP__
-#define __SAFE_CRITICAL_SECTION_HPP__
+#pragma once
 
 #include <Windows.h>
 
@@ -170,4 +169,3 @@ namespace Safe
 
 } // namespace Safe
 
-#endif // __SAFE_CRITICAL_SECTION_HPP__

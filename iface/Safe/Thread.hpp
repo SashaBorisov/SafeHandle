@@ -1,5 +1,4 @@
-#ifndef __SAFE_THREAD_HPP__
-#define __SAFE_THREAD_HPP__
+#pragma once
 
 #include <WinBase.h>
 #include <process.h>
@@ -49,4 +48,3 @@ namespace Safe
     
 } // namespace Safe
 
-#endif // __SAFE_THREAD_HPP__

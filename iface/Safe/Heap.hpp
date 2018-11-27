@@ -1,5 +1,4 @@
-#ifndef  __SAFE_HEAP_HPP__
-#define  __SAFE_HEAP_HPP__
+#pragma once
 
 #include <heapapi.h>
 #include <Safe/Safe.hpp>
@@ -123,4 +122,3 @@ namespace Safe
 
 } // namespace Safe
 
-#endif //__SAFE_HEAP_HPP__

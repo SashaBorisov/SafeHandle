@@ -1,5 +1,4 @@
-#ifndef __SAFE_FILE_MAPPING_HPP__
-#define __SAFE_FILE_MAPPING_HPP__
+#pragma once
 
 #include <memoryapi.h>
 
@@ -106,4 +105,4 @@ namespace Safe
 
 } // namespace Safe
 
-#endif // __SAFE_FILE_MAPPING_HPP__
+

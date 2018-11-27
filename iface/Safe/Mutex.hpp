@@ -1,5 +1,4 @@
-#ifndef __SAFE_MUTEX_HPP__
-#define __SAFE_MUTEX_HPP__
+#pragma once
 
 #include <synchapi.h>
 #include <Safe/Handle.hpp>
@@ -46,4 +45,4 @@ namespace Safe
 
 } // namespace Safe
 
-#endif // __SAFE_MUTEX_HPP__
+

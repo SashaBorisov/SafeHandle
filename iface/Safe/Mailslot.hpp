@@ -1,5 +1,4 @@
-#ifndef __SAFE_MAILSLOT_HPP__
-#define __SAFE_MAILSLOT_HPP__
+#pragma once
 
 #include <WinBase.h>
 #include <Safe/Handle.hpp>
@@ -28,4 +27,3 @@ namespace Safe
 
 } // namespace Safe
 
-#endif // __SAFE_MAILSLOT_HPP__

@@ -1,5 +1,4 @@
-#ifndef __SAFE_SAFE_HPP__
-#define __SAFE_SAFE_HPP__
+#pragma once
 
 
 namespace Safe
@@ -91,4 +90,3 @@ namespace Safe
 
 } // namespace Safe
 
-#endif // __SAFE_SAFE_HPP__
