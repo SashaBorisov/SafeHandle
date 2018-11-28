@@ -26,7 +26,7 @@ namespace Safe
             {
                 gem = reinterpret_cast<HANDLE>(::_beginthreadex
                 (
-                    security
+                      security
                     , stack_size
                     , procedure
                     , argument
